@@ -39,15 +39,12 @@ max_pos (Environment string)
 void
 print_env (Environment string, int max_h)
 {
-  printf("\x1B[H\x1B[J");
+  for (int i = 0; i < 2 * max_h * string.size; i++)
+    printf("\x1B[%d;%dH ", i / string.size, i % string.size);
+
   for (int i = 0; i < string.size; i++)
     {
       int y = (int)string.env[i].pos + max_h;
-      if (i < 0)
-        y = 0;
-      if (i > max_h)
-        y = max_h;
-      
       printf("\x1B[%d;%dH#", y, i);
     }
 }
