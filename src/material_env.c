@@ -56,3 +56,13 @@ print_env(Environment string, int max_h)
         printf("\n");
     }
 }
+
+void
+update_env(Environment *string)
+{
+  Atom *env = malloc (sizeof (Atom) * string->size);
+  for (int i = 1; i < string->size - 1; i++)
+    env[i].pos = string->env[i].pos + (string->env[i].pos - string->env[i - 1].pos) * string->env[i].mass * string->env[i - 1].mass + (string->env[i + 1].pos - string->env[i].pos) * string->env[i].mass * string->env[i + 1].mass;
+
+  string->env = env;
+}
