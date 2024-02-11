@@ -39,38 +39,24 @@ max_pos (Environment string)
 void
 print_env (Environment string, int max_h)
 {
-  char *frame = malloc (sizeof (char) * (2 * max_h * string.size + 1));
-  for (int i = 0; i < 2 * max_h * string.size + 1; i++)
-    frame[i] = ' ';
-
-  float max_pos_h = (float)max_pos (string);
+  printf("\x1B[H\x1B[J");
   for (int i = 0; i < string.size; i++)
     {
-      int y = (int)((string.env[i].pos * (float)max_h / max_pos_h) * 0.9)
-              + max_h;
-      frame[i + y * string.size] = '#';
-    }
-
-  printf ("\x1B[H");
-  for (int i = 0; i < 2 * max_h * string.size + 1; i++)
-    {
-      printf ("%c", frame[i]);
-      if (!(i % string.size))
-        printf ("\n");
+      int y = (int)string.env[i].pos + max_h;
+      if (i < 0)
+        y = 0;
+      if (i > max_h)
+        y = max_h;
+      
+      printf("\x1B[%d;%dH#", y, i);
     }
 }
 
 void
 update_env (Environment *string)
 {
-  Atom *env = malloc (sizeof (Atom) * string->size);
   for (int i = 0; i < string->size; i++)
-    {
-      env[i].pos += env[i].vel;
-    }
+    string->env[i].pos += string->env[i].vel;
   for (int i = 1; i < string->size - 1; i++)
-    {
-      env[i].vel 
-    }
-  string->env = env;
+    string->env[i].vel += ((string->env[i - 1].pos + string->env[i + 1].pos) / 2 - string->env[i].pos) / string->env[i].mass;
 }
