@@ -1,7 +1,7 @@
 CC=cc
 LD=ld
 FORMAT=clang-format
-CFLAGS=-std=gnu99 -Wall -Wextra -pedantic
+CFLAGS=-std=gnu99 -Wall -Wextra -pedantic -lm
 BUILD_DIR=./obj_files
 SRC_DIR=./src
 HEADERS_DIR=${SRC_DIR}/headers
